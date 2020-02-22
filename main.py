@@ -1,6 +1,6 @@
 import os
 import sys
-from MapAPI import MapAPI
+from Map_API import MapAPI
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton
@@ -45,28 +45,33 @@ class Main(QWidget):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_PageUp and int(self.map_api.zoom) < 17:
             self.map_api.zoom = str(int(self.map_api.zoom) + 1)
-            self.map_api.draw()
-            self.image.setPixmap(QPixmap('map.png'))
+            self.update_map()
         elif event.key() == Qt.Key_PageDown and int(self.map_api.zoom) > 0:
             self.map_api.zoom = str(int(self.map_api.zoom) - 1)
-            self.map_api.draw()
-            self.image.setPixmap(QPixmap('map.png'))
-        elif event.key() == Qt.Key_Left:
-            pass
-        elif event.key() == Qt.Key_Right:
-            pass
-        elif event.key() == Qt.Key_Up:
-            pass
-        elif event.key() == Qt.Key_Down:
-            pass
+            self.update_map()
+        elif event.key() == Qt.Key_A and -180 >= float(self.map_api.cords[0]) - 720 / 2 ** int(self.map_api.zoom) >= 180:
+            self.map_api.cords[0] = str(float(self.map_api.cords[0]) - 720 / 2 ** int(self.map_api.zoom))
+            self.update_map()
+        elif event.key() == Qt.Key_D and -180 >= float(self.map_api.cords[0]) + 720 / 2 ** int(self.map_api.zoom) >= 180:
+            self.map_api.cords[0] = str(float(self.map_api.cords[0]) + 720 / 2 ** int(self.map_api.zoom))
+            self.update_map()
+        elif event.key() == Qt.Key_W and -90 >= float(self.map_api.cords[1]) + 360 / 2 ** int(self.map_api.zoom) >= 90:
+            self.map_api.cords[1] = str(float(self.map_api.cords[1]) + 360 / 2 ** int(self.map_api.zoom))
+            self.update_map()
+        elif event.key() == Qt.Key_S and -90 >= float(self.map_api.cords[1]) - 360 / 2 ** int(self.map_api.zoom) >= 90:
+            self.map_api.cords[1] = str(float(self.map_api.cords[1]) - 360 / 2 ** int(self.map_api.zoom))
+            self.update_map()
         elif event.key() == Qt.Key_End:
             self.map_api.mod += 1
-            self.map_api.draw()
-            self.image.setPixmap(QPixmap('map.png'))
+            self.update_map()
 
     def search(self):
         find_object = self.object_input.text()
         self.map_api.find(find_object)
+        self.image.setPixmap(QPixmap('map.png'))
+
+    def update_map(self):
+        self.map_api.draw()
         self.image.setPixmap(QPixmap('map.png'))
 
 
