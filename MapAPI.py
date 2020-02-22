@@ -6,9 +6,11 @@ class MapAPI():
         self.cords = ['135.232', '45.214']
         self.zoom = '15'
         self.mod = 0  # вид карты
-        self.api_server = "http://static-maps.yandex.ru/1.x/"
+
 
     def draw(self):  # обновляет файл с картой
+        api_server = "http://static-maps.yandex.ru/1.x/"
+
         if self.mod % 3 == 0:
             map_kind = 'sat'
         elif self.mod % 3 == 1:
@@ -20,8 +22,8 @@ class MapAPI():
             "z": self.zoom,
             "l": map_kind
         }
-        response = requests.get(self.api_server, params=params)
-        # Запишем полученное изображение в файл.
+        response = requests.get(api_server, params=params)
+
         map_file = "map.png"
         with open(map_file, "wb") as file:
             file.write(response.content)
