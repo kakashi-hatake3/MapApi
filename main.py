@@ -46,7 +46,7 @@ class Main(QWidget):
         if event.key() == Qt.Key_PageUp and int(self.map_api.zoom) < 17:
             self.map_api.zoom = str(int(self.map_api.zoom) + 1)
             self.update_map()
-        elif event.key() == Qt.Key_PageDown and int(self.map_api.zoom) > 0:
+        elif event.key() == Qt.Key_PageDown and int(self.map_api.zoom) > 2:
             self.map_api.zoom = str(int(self.map_api.zoom) - 1)
             self.update_map()
         elif event.key() == Qt.Key_A and -180 >= float(self.map_api.cords[0]) - 720 / 2 ** int(self.map_api.zoom) >= 180:
