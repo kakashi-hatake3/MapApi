@@ -22,7 +22,7 @@ class Main(QWidget):
         self.setGeometry(200, 100, *SCREEN_SIZE)
         self.setWindowTitle('Отображение карты')
 
-        ## Изображение
+        # Изображение
         self.pixmap = QPixmap('map.png')
         self.image = QLabel(self)
         self.image.move(0, 0)
