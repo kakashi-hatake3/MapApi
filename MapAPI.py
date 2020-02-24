@@ -13,7 +13,7 @@ class MapAPI():
             map_kind = 'sat'
         elif self.mod % 3 == 1:
             map_kind = 'map'
-        elif self.mod % 3 == 2:
+        else:
             map_kind = 'skl'
         if pt:
             params = {
