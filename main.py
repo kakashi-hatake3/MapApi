@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QLineEdit
 
 
-SCREEN_SIZE = [600, 500]
+SCREEN_SIZE = [600, 550]
 
 
 class Main(QWidget):
@@ -37,6 +37,11 @@ class Main(QWidget):
         self.btn.resize(self.btn.sizeHint())
         self.btn.move(490, 460)
         self.btn.clicked.connect(self.search)
+
+        self.btn_clear = QPushButton('Сброс', self)
+        self.btn_clear.resize(self.btn.sizeHint())
+        self.btn_clear.move(490, 510)
+        self.btn_clear.clicked.connect(self.clear)
 
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
@@ -73,6 +78,10 @@ class Main(QWidget):
         find_object = self.object_input.text()
         self.map_api.find(find_object)
         self.image.setPixmap(QPixmap('map.png'))
+
+    def clear(self):
+        self.map_api.point = ['2003', '0828']
+        self.update_map()
 
     def update_map(self):
         self.map_api.draw()
