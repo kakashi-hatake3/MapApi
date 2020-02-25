@@ -50,16 +50,20 @@ class Main(QWidget):
             self.map_api.zoom = str(int(self.map_api.zoom) - 1)
             self.update_map()
         elif event.key() == Qt.Key_A:
-            self.map_api.cords[0] = str((float(self.map_api.cords[0]) - 720 / 2 ** int(self.map_api.zoom) + 180) % 360 - 180)
+            self.map_api.cords[0] = str((float(self.map_api.cords[0]) - 720 / 2 **
+                                         int(self.map_api.zoom) + 180) % 360 - 180)
             self.update_map()
         elif event.key() == Qt.Key_D:
-            self.map_api.cords[0] = str((float(self.map_api.cords[0]) + 720 / 2 ** int(self.map_api.zoom) + 180) % 360 - 180)
+            self.map_api.cords[0] = str((float(self.map_api.cords[0]) + 720 / 2 **
+                                         int(self.map_api.zoom) + 180) % 360 - 180)
             self.update_map()
-        elif event.key() == Qt.Key_W and -90 >= float(self.map_api.cords[1]) + 360 / 2 ** int(self.map_api.zoom) >= 90:
-            self.map_api.cords[1] = str(float(self.map_api.cords[1]) + 360 / 2 ** int(self.map_api.zoom))
+        elif event.key() == Qt.Key_W:
+            self.map_api.cords[1] = str((float(self.map_api.cords[1]) + 360 / 2 **
+                                         int(self.map_api.zoom) + 90) % 180 - 90)
             self.update_map()
-        elif event.key() == Qt.Key_S and -90 >= float(self.map_api.cords[1]) - 360 / 2 ** int(self.map_api.zoom) >= 90:
-            self.map_api.cords[1] = str(float(self.map_api.cords[1]) - 360 / 2 ** int(self.map_api.zoom))
+        elif event.key() == Qt.Key_S:
+            self.map_api.cords[1] = str((float(self.map_api.cords[1]) - 360 / 2 **
+                                         int(self.map_api.zoom) + 90) % 180 - 90)
             self.update_map()
         elif event.key() == Qt.Key_End:
             self.map_api.mod += 1
