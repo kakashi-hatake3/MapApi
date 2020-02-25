@@ -6,8 +6,9 @@ class MapAPI():
         self.cords = ['135.232', '45.214']
         self.zoom = '15'
         self.mod = 0  # вид карты
+        self.point = ['2003', '0828']  # метки нет
 
-    def draw(self, pt=False):  # обновляет файл с картой
+    def draw(self):  # обновляет файл с картой
         api_server = "http://static-maps.yandex.ru/1.x/"
         if self.mod % 3 == 0:
             map_kind = 'sat'
@@ -15,12 +16,12 @@ class MapAPI():
             map_kind = 'map'
         else:
             map_kind = 'skl'
-        if pt:
+        if self.point != ['2003', '0828']:
             params = {
                 "ll": ",".join([self.cords[0], self.cords[1]]),
                 "z": self.zoom,
                 "l": map_kind,
-                "pt": ','.join(self.cords) + ',pm2dbl'
+                "pt": ','.join(self.point) + ',pm2dbl'
             }
         else:
             params = {
@@ -42,5 +43,5 @@ class MapAPI():
             json_response = response.json()
             toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
             self.cords = toponym["Point"]["pos"].split()
-            self.draw(True)
-
+            self.point = toponym["Point"]["pos"].split()
+            self.draw()
