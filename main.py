@@ -3,7 +3,7 @@ import sys
 from MapAPI import MapAPI
 
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QCheckBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QLineEdit
 
@@ -17,6 +17,7 @@ class Main(QWidget):
         self.map_api = MapAPI()  # сама карта
         self.map_api.draw()
         self.initUI()
+        self.postal_code = True
 
     def initUI(self):
         self.setGeometry(200, 100, *SCREEN_SIZE)
@@ -46,6 +47,11 @@ class Main(QWidget):
         self.btn_clear.resize(self.btn.sizeHint())
         self.btn_clear.move(490, 510)
         self.btn_clear.clicked.connect(self.clear)
+
+        self.check_box = QCheckBox('Почтовый индекс', self)
+        self.check_box.move(20, 530)
+        self.check_box.toggle()
+        self.check_box.stateChanged.connect(self.check)
 
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
@@ -78,9 +84,16 @@ class Main(QWidget):
             self.map_api.mod += 1
             self.update_map()
 
+    def check(self, state):
+        if state == Qt.Checked:
+            self.postal_code = True
+        else:
+            self.postal_code = False
+        self.search()
+
     def search(self):
         find_object = self.object_input.text()
-        self.label.setText(self.map_api.find(find_object))
+        self.label.setText(self.map_api.find(find_object, self.postal_code))
         self.image.setPixmap(QPixmap('map.png'))
 
     def clear(self):
