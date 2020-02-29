@@ -35,7 +35,7 @@ class MapAPI():
         with open(map_file, "wb") as file:
             file.write(response.content)
 
-    def find(self, find_object):
+    def find(self, find_object, postal_code):
         geocoder_request = "http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&" \
                    "geocode=" + find_object + "&format=json"
         response = requests.get(geocoder_request)
@@ -45,5 +45,15 @@ class MapAPI():
             self.cords = toponym["Point"]["pos"].split()
             self.point = toponym["Point"]["pos"].split()
             self.draw()
-            return json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"][
-                'metaDataProperty']["GeocoderMetaData"]["Address"]["formatted"]
+            if postal_code:
+                try:
+                    return json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"][
+                        'metaDataProperty']["GeocoderMetaData"]["Address"]["formatted"] + ', ' + json_response[
+                        "response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]['metaDataProperty'][
+                        "GeocoderMetaData"]["Address"]["postal_code"]
+                except Exception as e:
+                    return json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"][
+                        'metaDataProperty']["GeocoderMetaData"]["Address"]["formatted"]
+            else:
+                return json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"][
+                    'metaDataProperty']["GeocoderMetaData"]["Address"]["formatted"]
