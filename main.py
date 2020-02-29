@@ -1,6 +1,6 @@
 import os
 import sys
-from Map_API import MapAPI
+from MapAPI import MapAPI
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton
@@ -29,11 +29,15 @@ class Main(QWidget):
         self.image.resize(600, 450)
         self.image.setPixmap(self.pixmap)
 
+        self.label = QLabel(self)
+        self.label.move(20, 495)
+        self.label.resize(480, 30)
+
         self.object_input = QLineEdit(self)
         self.object_input.move(10, 460)
         self.object_input.resize(475, 25)
 
-        self.btn = QPushButton('Search', self)
+        self.btn = QPushButton('Поиск', self)
         self.btn.resize(self.btn.sizeHint())
         self.btn.move(490, 460)
         self.btn.clicked.connect(self.search)
@@ -76,11 +80,12 @@ class Main(QWidget):
 
     def search(self):
         find_object = self.object_input.text()
-        self.map_api.find(find_object)
+        self.label.setText(self.map_api.find(find_object))
         self.image.setPixmap(QPixmap('map.png'))
 
     def clear(self):
         self.map_api.point = ['2003', '0828']
+        self.label.setText('')
         self.update_map()
 
     def update_map(self):
