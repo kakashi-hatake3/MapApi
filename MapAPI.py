@@ -45,3 +45,5 @@ class MapAPI():
             self.cords = toponym["Point"]["pos"].split()
             self.point = toponym["Point"]["pos"].split()
             self.draw()
+            return json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"][
+                'metaDataProperty']["GeocoderMetaData"]["Address"]["formatted"]
