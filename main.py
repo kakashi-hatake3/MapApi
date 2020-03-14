@@ -89,7 +89,6 @@ class Main(QWidget):
             self.postal_code = True
         else:
             self.postal_code = False
-        self.search()
 
     def search(self):
         find_object = self.object_input.text()
