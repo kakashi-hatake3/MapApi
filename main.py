@@ -53,6 +53,9 @@ class Main(QWidget):
         self.check_box.toggle()
         self.check_box.stateChanged.connect(self.check)
 
+    def mousePressEvent(self, QMouseEvent):
+        self.object_input.clearFocus()
+
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
         os.remove(self.map_file)
